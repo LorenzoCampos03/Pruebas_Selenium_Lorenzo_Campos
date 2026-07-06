@@ -1,0 +1,94 @@
+/* Estilos para tablas de notas estilo Ministerio de Educación del Perú */
+
+.notes-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.75rem;
+}
+
+.notes-table th,
+.notes-table td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem;
+}
+
+/* Header sticky */
+.notes-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Columnas fijas (número y nombre) */
+.notes-table .sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  background-color: inherit;
+}
+
+.notes-table .sticky-col-name {
+  position: sticky;
+  left: 3rem;
+  z-index: 5;
+  background-color: inherit;
+}
+
+/* Colores de header por nivel */
+.notes-table .header-course {
+  background-color: #1e3a8a;
+  color: white;
+  font-weight: 600;
+}
+
+.notes-table .header-competency {
+  background-color: #1e40af;
+  color: white;
+  font-weight: 500;
+}
+
+.notes-table .header-capacity {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 400;
+}
+
+/* Filas alternas */
+.notes-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.notes-table tbody tr:nth-child(odd) {
+  background-color: white;
+}
+
+/* Hover en filas */
+.notes-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Estilos para las notas */
+.grade-cell {
+  text-align: center;
+  font-weight: 600;
+}
+
+.grade-AD {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.grade-A {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.grade-B {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.grade-C {
+  background-color: #fee2e2;
+  color: #991b1b;
+}

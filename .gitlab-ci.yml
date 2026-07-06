@@ -1,0 +1,35 @@
+stages:
+     - docker
+     - deploy
+
+variables:
+     IMAGE_NAME: "oscarochoa01/sigei-web"
+     DOCKER_TLS_CERTDIR: ""
+     DEPLOY_WEBHOOK_URL: "https://sigei.ddns.net/api/deploy/kivBEgk1zA_T414ZsEFAb"
+
+docker_publish:
+     stage: docker
+     image: docker:27.1.2
+     services:
+          - docker:27.1.2-dind
+     before_script:
+          - 'if [ -z "$DOCKER_TOKEN" ]; then echo "Error: DOCKER_TOKEN is explicitly empty or undefined. Please check GitLab CI/CD settings (is it a Protected variable?)."; exit 1; fi'
+          - echo "$DOCKER_TOKEN" | docker login -u "oscarochoa01" --password-stdin
+     script:
+          - docker build -t "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" -t "$IMAGE_NAME:latest" .
+          - docker push "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA"
+          - docker push "$IMAGE_NAME:latest"
+     rules:
+          - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "main")'
+          - if: "$CI_COMMIT_TAG"
+
+deploy_vps:
+     stage: deploy
+     image: curlimages/curl:8.10.1
+     needs:
+          - docker_publish
+     script:
+          - curl -fsS -X POST "$DEPLOY_WEBHOOK_URL" || curl -fsS "$DEPLOY_WEBHOOK_URL"
+     rules:
+          - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "main")'
+          - if: "$CI_COMMIT_TAG"
